@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api.apps.ApiConfig',
+    'api',
     'rest_framework',
 
 ]
@@ -72,14 +72,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'moonai_api.wsgi.application'
 
-
+AUTH_USER_MODEL="api.CustomUser"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'moonai',
+        'CLIENT': {
+            "host":"mongodb+srv://f0opy:1DPHLRM8PhDWdCW7@cluster0.p4hv7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+        }
     }
 }
 

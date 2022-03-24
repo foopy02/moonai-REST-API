@@ -28,7 +28,6 @@ class MyUserManager(BaseUserManager):
             gender=gender,
             date_of_birth=date_of_birth
         )
-        print(user.__dict__)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -46,7 +45,6 @@ class MyUserManager(BaseUserManager):
         )
         user.is_admin=True
         user.is_superuser=True
-        print(user.__dict__)
         user.save(using=self._db)
         return user
 
@@ -85,7 +83,7 @@ class CustomUser(AbstractBaseUser):
 
     ref_balance_last_updated=models.FloatField(verbose_name="Referals balance last update", default=0)
     ref_balance_last_updated_time=models.FloatField(verbose_name="Referal balance last updated time", null=True, blank=True)
-    ref_code=models.CharField(verbose_name="Referal code", max_length=30, unique=True, null=True, blank=True)
+    ref_code=models.CharField(verbose_name="Referal code",default="", max_length=30, null=True, blank=True)
     ref_amount_available=models.IntegerField(default=0)
     ref_amount_filled=models.IntegerField(default=0)
     ref_by=models.UUIDField(default=None, null=True, blank=True)

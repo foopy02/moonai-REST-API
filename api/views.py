@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from pydantic import Json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes

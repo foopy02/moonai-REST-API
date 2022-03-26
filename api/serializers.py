@@ -1,6 +1,3 @@
-from ast import Try
-from attr import fields
-from click import style
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import Withdraw, Deposit, CustomUser

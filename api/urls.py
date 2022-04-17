@@ -4,6 +4,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('register/', views.register_user),
     path('user/', views.get_user_info),
+    path('user/balance/', views.get_user_balance_info),
+    path('user/ref/', views.get_user_ref_info),
+    path('user/plans/', views.get_user_plans_info),
     path('user/withdraws/', views.get_withdraws),
     path('user/deposits/', views.get_deposits),
     # path('user/referal/list', views.get_referals),

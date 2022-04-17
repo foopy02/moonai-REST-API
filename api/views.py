@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .models import CustomUser, Deposit, Withdraw
-from .serializers import RegistrationSerializer, UserSerializer, WithdrawSerializer, DepositSerializer
+from .serializers import RegistrationSerializer, UserBalanceSerializer, UserPlansSerializer, UserRefSerializer, UserSerializer, WithdrawSerializer, DepositSerializer
 from .helpers import *
 import json
 
@@ -25,6 +25,43 @@ def get_user_info(request):
     user_id = get_user_id_from_token(token)
     user = CustomUser.objects.get(id=user_id)
     serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_balance_info(request):
+    token = get_token_from_request(request)
+    user_id = get_user_id_from_token(token)
+    user = CustomUser.objects.get(id=user_id)
+    serializer = UserBalanceSerializer(user, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_ref_info(request):
+    token = get_token_from_request(request)
+    user_id = get_user_id_from_token(token)
+    user = CustomUser.objects.get(id=user_id)
+    serializer = UserRefSerializer(user, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_plans_info(request):
+    token = get_token_from_request(request)
+    user_id = get_user_id_from_token(token)
+    user = CustomUser.objects.get(id=user_id)
+    serializer = UserPlansSerializer(user, many=False)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_balance_info(request):
+    token = get_token_from_request(request)
+    user_id = get_user_id_from_token(token)
+    user = CustomUser.objects.get(id=user_id)
+    serializer = UserBalanceSerializer(user, many=False)
     return Response(serializer.data)
 
 #TEST USER ID = ad474b75-2dd6-405f-85ab-e21495dd377e

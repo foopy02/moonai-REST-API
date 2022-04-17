@@ -3,6 +3,7 @@ from django.db import models
 import uuid
 # Create your models here.
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
+from sqlalchemy import null
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
@@ -85,7 +86,7 @@ class CustomUser(AbstractBaseUser):
     surname=models.CharField(max_length=26, verbose_name="Surname")
 
     gender= models.IntegerField(choices=Gender.genders, verbose_name="Gender")
-    number = models.IntegerField(verbose_name="Phone number")
+    number = models.IntegerField(verbose_name="Phone number", null=True, blank=True)
     date_of_birth=models.DateField(verbose_name="Date of Birth")
     
     balance_last_updated=models.FloatField(verbose_name="Balance last Updated", null=True, blank=True)

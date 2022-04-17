@@ -49,6 +49,16 @@ class MyUserManager(BaseUserManager):
         return user
 
 class CustomUser(AbstractBaseUser):
+    class UserType():
+        STANDARD = "STANDARD"
+        MICROINF = "MICROINF"
+        MACROINF = "MACROINF"
+        types = (
+            (STANDARD, "STANDARD"),
+            (MICROINF, "MICROINF"),
+            (MACROINF, "MACROINF")
+        )
+
     class Gender():
         MALE = 0
         FEMALE = 1
@@ -75,6 +85,7 @@ class CustomUser(AbstractBaseUser):
     surname=models.CharField(max_length=26, verbose_name="Surname")
 
     gender= models.IntegerField(choices=Gender.genders, verbose_name="Gender")
+    number = models.IntegerField(verbose_name="Phone number")
     date_of_birth=models.DateField(verbose_name="Date of Birth")
     
     balance_last_updated=models.FloatField(verbose_name="Balance last Updated", null=True, blank=True)
@@ -89,6 +100,7 @@ class CustomUser(AbstractBaseUser):
     ref_by=models.UUIDField(default=None, null=True, blank=True)
 
     apy=models.IntegerField(default=2)
+    usertype=models.CharField(choices=UserType.types, default=UserType.STANDARD, max_length=20)
     plan=models.CharField(choices=Apy.plans, default=Apy.BASIC, max_length=10)
 
     date_joined = models.DateTimeField(auto_now_add=True, editable=True),

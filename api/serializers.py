@@ -60,6 +60,7 @@ class RegistrationSerializer(ModelSerializer):
             username=self.validated_data['username'],
             name=self.data['name'],
             surname=self.data['surname'],
+            number=self.data['number'],
             gender=self.data['gender'],
             date_of_birth=self.data['date_of_birth']
         )

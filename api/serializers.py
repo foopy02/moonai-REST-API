@@ -1,11 +1,11 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import Withdraw, Deposit, CustomUser
-
+from .models import Withdraw, Deposit, CustomUser, Wallet
+from .terra_network import TerraNetwork
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['email', 'username', 'name', 'surname', 'gender', 'date_of_birth', 'password', 'number']
+        fields = ['email', 'username', 'name', 'surname', 'gender', 'date_of_birth', 'number']
 
 class UserBalanceSerializer(ModelSerializer):
     class Meta:
@@ -37,12 +37,24 @@ class RegistrationSerializer(ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'username', 'name', 'surname', 'gender', 'date_of_birth', 'password', 'password2']
+        fields = ['email', 'username', 'name', 'surname', 'gender', 'date_of_birth', 'number', 'ref_by', 'password', 'password2']
         extra_kwargs = {
             'password': {'write_only': True}
         }
+    
+
+    def _generate_wallet_for_user(self,user):
+        tn = TerraNetwork()
+        terra_wallet = tn.create_wallet()
+        wallet = Wallet(
+                user=user,
+                address=terra_wallet[0],
+                mnemonic_key=terra_wallet[1]
+        )
+        wallet.save()
 
     def save(self):
+        
         user = CustomUser(
             email=self.validated_data['email'],
             username=self.validated_data['username'],
@@ -56,6 +68,21 @@ class RegistrationSerializer(ModelSerializer):
 
         if password != password2:
             raise serializers.ValidationError({'password':"Passwords must match."})
+
+        if self.data['ref_by'] is not None:
+            try:
+                referer = CustomUser.objects.get(username=self.data['ref_by'])
+                user.ref_by = referer.username
+                referer.ref_amount_filled += 1
+                referer.save()
+            except CustomUser.DoesNotExist:
+                raise serializers.ValidationError({'ref_by':f"{self.data['ref_by']} doesn't found in database. Check referal username."})
+            
         user.set_password(password)
+
+        user.ref_code = user.username
         user.save()
+        self._generate_wallet_for_user(user)
+
         return user
+

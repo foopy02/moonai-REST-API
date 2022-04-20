@@ -10,6 +10,8 @@ import requests
 
 class TerraNetwork:
     denominator = 1000000
+    #TESTNET
+    #TODO: Change to Mainnet link
     terra = LCDClient("https://bombay-lcd.terra.dev", "bombay-12")
 
     def __init__(self, ):
@@ -17,7 +19,7 @@ class TerraNetwork:
 
     def create_wallet(self):
         mk = MnemonicKey()
-        return mk.mnemonic
+        return (mk.acc_address, mk.mnemonic)
     
     def check_balance(self, address):
         return self.terra.bank.balance(address)
@@ -53,10 +55,9 @@ class TerraNetwork:
         return info.__dict__['tx'].__dict__['body'].__dict__['memo']
     
     def get_last_transactions(self, limit, address):
-        response = requests.get(f"https://bombay-fcd.terra.dev/v1/txs?offset=0&limit={limit}&account={address}").json()
+        response = requests.get(f"https://fcd.terra.dev/v1/txs?offset=0&limit={limit}&account={address}").json()
         txs = response['txs']
-
-        return response
+        return txs
     
     def get_memo_from_txhash(self, txhash):
         info = self.terra.tx.tx_info(txhash)
@@ -65,6 +66,8 @@ class TerraNetwork:
 
 def test():
     tn = TerraNetwork()
+    test_mk = MnemonicKey("cruise income fiction era cook media budget farm key laundry satoshi pitch rude proof enforce toward once very engage feed discover board sand naive")
+    
     mk2 = MnemonicKey("deal used situate replace truck spray brief shoe movie language another horror portion comic blind merit bargain sand mix live diamond link envelope lunar")
     mk = MnemonicKey("ask engage entry curve race equip garment shield front pulp chapter useless grass build name gesture beef evil enrich outdoor miss negative shop tent")
     tx = tn.send(mk, mk.acc_address, mk2.acc_address, "Hello this is test", 10, "uusd")
@@ -73,8 +76,6 @@ def test():
 
 
 
-
-test()
 
 
 

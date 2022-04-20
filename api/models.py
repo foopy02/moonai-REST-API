@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from django.db import models
 import uuid
 # Create your models here.
@@ -6,7 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, username, name, surname, gender, date_of_birth, password=None):
+    def create_user(self, email, username, name, surname, gender, date_of_birth,  password=None):
         if not email:
             raise ValueError("Email is mandatory field")
         if not username:
@@ -49,6 +48,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 class CustomUser(AbstractBaseUser):
+
     class UserType():
         STANDARD = "STANDARD"
         MICROINF = "MICROINF"
@@ -85,26 +85,26 @@ class CustomUser(AbstractBaseUser):
     surname=models.CharField(max_length=26, verbose_name="Surname")
 
     gender= models.IntegerField(choices=Gender.genders, verbose_name="Gender")
-    number = models.IntegerField(verbose_name="Phone number", null=True, blank=True)
+    number = models.CharField(max_length=15, verbose_name="Phone number", null=True, blank=True)
     date_of_birth=models.DateField(verbose_name="Date of Birth")
     
-    balance_last_updated=models.FloatField(verbose_name="Balance last Updated", null=True, blank=True)
-    balance_last_updated_time=models.FloatField(verbose_name="Balance last Updated Time", null=True, blank=True)
+    balance_last_updated=models.FloatField(verbose_name="Balance last Updated", default=0)
+    balance_last_updated_time=models.DateTimeField(verbose_name="Balance last Updated Time", auto_now_add=True)
     balance_for_withdraw=models.FloatField(verbose_name="Balance available for withdraw", default=0)
 
     ref_balance_last_updated=models.FloatField(verbose_name="Referals balance last update", default=0)
-    ref_balance_last_updated_time=models.FloatField(verbose_name="Referal balance last updated time", null=True, blank=True)
-    ref_code=models.CharField(verbose_name="Referal code",default="", max_length=30, null=True, blank=True)
-    ref_amount_available=models.IntegerField(default=0)
+    ref_balance_last_updated_time=models.DateTimeField(verbose_name="Referal balance last updated time", null=True, blank=True)
+    ref_code=models.CharField(verbose_name="Referal code",default=None, max_length=30, null=True, blank=True)
+    ref_amount_available=models.IntegerField(default=10)
     ref_amount_filled=models.IntegerField(default=0)
-    ref_by=models.UUIDField(default=None, null=True, blank=True)
+    ref_by=models.CharField(verbose_name="Referred by", max_length=30,default=None, null=True, blank=True)
 
     apy=models.IntegerField(default=2)
     usertype=models.CharField(choices=UserType.types, default=UserType.STANDARD, max_length=20)
     plan=models.CharField(choices=Apy.plans, default=Apy.BASIC, max_length=10)
 
-    date_joined = models.DateTimeField(auto_now_add=True, editable=True),
-    last_login = models.DateTimeField(auto_now=True, verbose_name="Last login", editable=True),
+    date_joined = models.DateTimeField(auto_now_add=True),
+    last_login = models.DateTimeField(auto_now=True, verbose_name="Last login"),
     is_admin=models.BooleanField(default=False),
     is_active=models.BooleanField(default=True),
     is_staff=models.BooleanField(default=False),
@@ -166,3 +166,9 @@ class Deposit(models.Model):
     status = models.CharField(max_length=25, choices=CashFlowStatus.statuses, verbose_name="Status")
     datetime = models.DateTimeField(auto_now=True, verbose_name='Date and time of withdraw')
 
+class Wallet(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, unique=True, primary_key=True)
+    address = models.CharField(max_length=100, verbose_name="Wallet address")
+    mnemonic_key = models.TextField(verbose_name="Mnemonic key")
+    balance = models.FloatField(default=0)
+    last_update = models.DateTimeField(auto_now=True)

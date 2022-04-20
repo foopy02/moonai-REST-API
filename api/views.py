@@ -12,59 +12,40 @@ import json
 
 
 @api_view(['GET'])
-def index(request):
-    data = {
-        "hello": "hello"
-    }
-    return Response(data)
-
-@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_info(request):
-    token = get_token_from_request(request)
-    user_id = get_user_id_from_token(token)
-    user = CustomUser.objects.get(id=user_id)
+    user = get_user(request)
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
-
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_balance_info(request):
-    token = get_token_from_request(request)
-    user_id = get_user_id_from_token(token)
-    user = CustomUser.objects.get(id=user_id)
+    user = get_user(request)
     serializer = UserBalanceSerializer(user, many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_ref_info(request):
-    token = get_token_from_request(request)
-    user_id = get_user_id_from_token(token)
-    user = CustomUser.objects.get(id=user_id)
+    user = get_user(request)
     serializer = UserRefSerializer(user, many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_plans_info(request):
-    token = get_token_from_request(request)
-    user_id = get_user_id_from_token(token)
-    user = CustomUser.objects.get(id=user_id)
+    user = get_user(request)
     serializer = UserPlansSerializer(user, many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_balance_info(request):
-    token = get_token_from_request(request)
-    user_id = get_user_id_from_token(token)
-    user = CustomUser.objects.get(id=user_id)
+    user = get_user(request)
     serializer = UserBalanceSerializer(user, many=False)
     return Response(serializer.data)
 
-#TEST USER ID = ad474b75-2dd6-405f-85ab-e21495dd377e
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_withdraws(request):
@@ -81,7 +62,6 @@ def get_deposits(request):
     serializer = DepositSerializer(deposits, many=True)
     return Response(serializer.data)
 
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
@@ -91,7 +71,6 @@ def register_user(request):
         if serializer.is_valid():
             user = serializer.save()
             data = {
-                'response': "Success",
                 'email': user.email,
                 'username': user.username,
                 'name': user.name,

@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-(4pookp*ncgjj6ov^nwt8a8)t8q_j=(_)kux5(6rqh&18@5$df'
+TIME_ZONE = 'Asia/Almaty'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -127,7 +128,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',

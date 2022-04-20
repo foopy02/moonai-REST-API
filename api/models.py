@@ -167,7 +167,7 @@ class Deposit(models.Model):
     datetime = models.DateTimeField(auto_now=True, verbose_name='Date and time of withdraw')
 
 class Wallet(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, unique=True, primary_key=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     address = models.CharField(max_length=100, verbose_name="Wallet address")
     mnemonic_key = models.TextField(verbose_name="Mnemonic key")
     balance = models.FloatField(default=0)

@@ -1,5 +1,4 @@
 import asyncio
-from msilib.schema import Error
 from terra_sdk.client.lcd.api.tx import CreateTxOptions
 from terra_sdk.client.lcd import AsyncLCDClient, LCDClient
 from terra_sdk.key.mnemonic import MnemonicKey

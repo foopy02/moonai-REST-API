@@ -2,6 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import Withdraw, Deposit, CustomUser, Wallet
 from .terra_network import TerraNetwork
+from .utils import send_email_token
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
@@ -82,6 +83,8 @@ class RegistrationSerializer(ModelSerializer):
         user.set_password(password)
 
         user.ref_code = user.username
+        send_email_token(user.email, user.id)
+        user.is_active = False
         user.save()
         self._generate_wallet_for_user(user)
 

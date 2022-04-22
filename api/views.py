@@ -9,12 +9,14 @@ from .models import CustomUser, Deposit, Withdraw
 from .serializers import RegistrationSerializer, UserBalanceSerializer, UserPlansSerializer, UserRefSerializer, UserSerializer, WithdrawSerializer, DepositSerializer
 from .helpers import *
 import json
+from django.contrib.auth import get_user_model
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_info(request):
     user = get_user(request)
+ 
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
 
@@ -22,6 +24,7 @@ def get_user_info(request):
 @permission_classes([IsAuthenticated])
 def get_user_balance_info(request):
     user = get_user(request)
+    print(user.is_active)
     serializer = UserBalanceSerializer(user, many=False)
     return Response(serializer.data)
 
@@ -81,3 +84,14 @@ def register_user(request):
         else:
             data = serializer.errors
     return Response(data)
+
+
+def verify(request, token):
+    try:
+        user = CustomUser.objects.get(id=token)
+        user.is_active = True
+        user.save()
+    except Exception as e:
+        print(e)
+        pass
+    return render(request, 'api/confirm_template.html')

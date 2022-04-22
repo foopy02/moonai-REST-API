@@ -26,7 +26,7 @@ TIME_ZONE = 'Asia/Almaty'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['84.201.188.169', '127.0.0.1']
+ALLOWED_HOSTS = ['moonaifinanceapiendpointdomain.com','84.201.188.169', '127.0.0.1']
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
-
+    'django_email_verification',
 ]
 
 MIDDLEWARE = [
@@ -168,3 +168,10 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(hours=12),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=2),
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER ='meirambaiuliadil20020@gmail.com'
+EMAIL_HOST_PASSWORD ='almyhojvdnsraksc'

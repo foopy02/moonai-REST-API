@@ -94,4 +94,4 @@ def verify(request, token):
     except Exception as e:
         print(e)
         pass
-    return render(request, 'api/confirm_template.html')
+    return render(request, 'confirm_template.html')

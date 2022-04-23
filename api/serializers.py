@@ -83,7 +83,7 @@ class RegistrationSerializer(ModelSerializer):
         user.set_password(password)
 
         user.ref_code = user.username
-        send_email_token(user.email, user.id)
+        send_email_token(user.email, user.id, user.username)
         user.is_active = False
         user.save()
         self._generate_wallet_for_user(user)

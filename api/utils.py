@@ -8,10 +8,10 @@ def send_email_token(email, token, username):
             'mail_body.html',
             {
                 'username': username,
-                'link':f'http://moonaifinanceapiendpointdomain.com/api/verify/{token}'
+                'link':f'https://moonaifinanceapiendpointdomain.com/api/verify/{token}'
             }
         )
-        message = f'http://moonaifinanceapiendpointdomain.com/api/verify/{token}'
+        message = f'https://moonaifinanceapiendpointdomain.com/api/verify/{token}'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [email,]
         send_mail(subject, message, email_from, recipient_list,html_message=html_message)

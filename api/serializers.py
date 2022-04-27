@@ -93,13 +93,12 @@ class RegistrationSerializer(ModelSerializer):
                 raise serializers.ValidationError({'ref_by':f"{self.data['ref_by']} doesn't found in database. Check referal username."})
             
         user.set_password(password)
-
         user.ref_code = user.username
         send_email_token(user.email, user.id, user.username)
         user.is_active = False
+        user.balance_for_withdraw=1
         user.save()
         self._generate_wallet_for_user(user)
-
         return user
 
 class WalletSerializer(ModelSerializer):

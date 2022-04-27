@@ -11,7 +11,7 @@ class TerraNetwork:
     denominator = 1000000
     #TESTNET
     #TODO: Change to Mainnet link
-    terra = LCDClient("https://bombay-lcd.terra.dev", "bombay-12")
+    terra = LCDClient("https://lcd.terra.dev", "columbus-5")
 
     def __init__(self, ):
         pass

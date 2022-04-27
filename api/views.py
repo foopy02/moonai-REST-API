@@ -5,18 +5,25 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from .models import CustomUser, Deposit, Withdraw
-from .serializers import RegistrationSerializer, UserBalanceSerializer, UserPlansSerializer, UserRefSerializer, UserSerializer, WithdrawSerializer, DepositSerializer
+from .models import *
+from .serializers import UserRefUsernameSerializer,UserAllSerializer,RegistrationSerializer, UserBalanceSerializer, UserPlansSerializer, UserRefSerializer, UserSerializer, WalletSerializer, WithdrawSerializer, DepositSerializer
 from .helpers import *
 import json
+from rest_framework import serializers
+
 from django.contrib.auth import get_user_model
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_full_infO(request):
+    user = get_user(request)
+    serializer = UserAllSerializer(user, many=False)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_info(request):
     user = get_user(request)
- 
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
 
@@ -24,7 +31,6 @@ def get_user_info(request):
 @permission_classes([IsAuthenticated])
 def get_user_balance_info(request):
     user = get_user(request)
-    print(user.is_active)
     serializer = UserBalanceSerializer(user, many=False)
     return Response(serializer.data)
 
@@ -34,6 +40,15 @@ def get_user_ref_info(request):
     user = get_user(request)
     serializer = UserRefSerializer(user, many=False)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_referals(request):
+    user = get_user(request)
+    users = CustomUser.objects.filter(ref_by=user.username)
+    serializer = UserRefUsernameSerializer(users, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -65,6 +80,17 @@ def get_deposits(request):
     serializer = DepositSerializer(deposits, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_wallet_of_user(request):
+    user = get_user(request)
+    try:
+        wallet = Wallet.objects.get(user=user)
+    except Wallet.DoesNotExist:
+        raise serializers.ValidationError({"status":500,"message":"There is no wallet of this user"})
+    serializer = WalletSerializer(wallet, many=False)
+    return Response(serializer.data)
+    
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):

@@ -3,6 +3,12 @@ from rest_framework import serializers
 from .models import Withdraw, Deposit, CustomUser, Wallet
 from .terra_network import TerraNetwork
 from .utils import send_email_token
+
+class UserAllSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'username', 'name', 'surname', 'gender', 'date_of_birth', 'number','balance_last_updated', 'balance_last_updated_time', 'balance_for_withdraw','ref_balance_last_updated', 'ref_balance_last_updated_time', 'ref_code','ref_amount_available','ref_amount_filled','ref_by','apy', 'usertype', 'plan']
+
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
@@ -17,6 +23,12 @@ class UserRefSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['ref_balance_last_updated', 'ref_balance_last_updated_time', 'ref_code','ref_amount_available','ref_amount_filled','ref_by']
+
+class UserRefUsernameSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username']
+
 
 class UserPlansSerializer(ModelSerializer):
     class Meta:
@@ -90,3 +102,7 @@ class RegistrationSerializer(ModelSerializer):
 
         return user
 
+class WalletSerializer(ModelSerializer):
+    class Meta:
+        model = Wallet
+        fields = ['address', 'balance']

@@ -3,68 +3,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Успешное подтверждение</title>
-</head>
-<style>
-           @media screen {
-            @font-face {
-                font-family: 'Lato';
-                font-style: normal;
-                font-weight: 400;
-                src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+    <title>Успешный сброс</title>
+    <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Raleway:wght@100;400;500;600;700&display=swap');
+            body{
+                display: flex;
+                margin: 0;
+                background-color: #F9F9FF;
+                align-items: center;
+                padding: 0 30px;
+            }
+            .title{
+                color: #090943;
+                font-family:'Raleway', sans-serif;
+            }
+            h1{
+                margin:0;
+                margin-bottom: 10;
+            }
+            .container{
+                margin: 0 auto;
+                background-color: white;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.205); 
+                border-radius: 5px;
+                padding: 20px 40px ;
             }
 
-            @font-face {
-                font-family: 'Lato';
-                font-style: normal;
-                font-weight: 700;
-                src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+            span{
+                font-family: 'Inter', sans-serif;
+                color: #555583;
+            }
+               /* MOBILE STYLES */
+        @media screen and (max-width:600px) {
+            h1 {
+                font-size: 25px !important;
+                line-height: 25px !important;
             }
 
-            @font-face {
-                font-family: 'Lato';
-                font-style: italic;
-                font-weight: 400;
-                src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v11/RYyZNoeFgb0l7W3Vu1aSWOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
-            }
-
-            @font-face {
-                font-family: 'Lato';
-                font-style: italic;
-                font-weight: 700;
-                src: local('Lato Bold Italic'), local('Lato-BoldItalic'), url(https://fonts.gstatic.com/s/lato/v11/HkF_qI1x_noxlxhrhMQYELO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+            .container{
+                padding: 15px 25px ;
             }
         }
-    body{
-        margin:0;   
-        display: flex;
-        align-items: center;
-        background-color: #210a2e25;
-        padding: 0 20px;
-        justify-content: center;
-        font-family: 'Lato', Helvetica, Arial, sans-serif;
-    }
-    .content{
-        background-color: #210a2e;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 50px 50px;
-        width: 100%;
-        max-width: 400px;
-        border-radius: 10px;
-        box-sizing: border-box;
-        color: white;
-    }
-    .content span{
-        color: white;
-    }
-</style>
+
+    </style>
+</head>
 <body>
-    <div class="content">
-        <h1>Поздравляем!</h1>
-        <span>Вы успешно активировали аккаунт, можете обратно переходить на приложение</span>
-    </div>
+<div class="container">
+    <h1 class="title">Поздравляем!</h1>
+    <span>Вы успешно активировали аккаунт, можете обратно переходить в приложение</span>
+</div>
 </body>
 </html>
+

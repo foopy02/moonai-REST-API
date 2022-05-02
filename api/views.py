@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from .utils import send_email_token,send_reset_password_mail, password_check
 from .models import *
 from .serializers import UserRefUsernameSerializer,UserAllSerializer,RegistrationSerializer, UserBalanceSerializer, UserPlansSerializer, UserRefSerializer, UserSerializer, WalletSerializer, WithdrawSerializer, DepositSerializer
 from .helpers import *
@@ -118,6 +119,51 @@ def verify(request, token):
         user.is_active = True
         user.save()
     except Exception as e:
-        print(e)
         pass
     return render(request, 'confirm_template.html')
+
+
+#Reset password
+def reset_password(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            user = CustomUser.objects.get(email=email)
+
+            id = user.id
+            token = uuid.uuid4()
+            username = user.username
+            user.reset_password_token = token
+            user.save()
+            send_reset_password_mail(email=email, token=str(token), username=username, id=id)
+            
+            return render(request, 'api/reset_password_done.html', {'email': email})
+        except Exception as e:
+            return render(request, 'api/reset_password.html', {'error': "Пользователя с такой почтой не существует"})
+    else:
+        return render(request, 'api/reset_password.html')
+
+
+def password_reset_confirm(request, user, token):
+    if request.method == "POST":
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password1")
+
+        if password1 == password2 and password_check(password1):
+            user = CustomUser.objects.get(id=user)
+            user.set_password(password1)
+            user.save()
+            return  render(request, 'api/password_reset_complete.html')
+        else:
+            return  render(request, 'api/password_reset_confirm.html', {"error": "We have error"})
+    else:
+        try:
+            user = CustomUser.objects.get(id=user)
+            if str(user.reset_password_token) == token:
+                user.reset_password_token = None
+                user.save()
+                return  render(request, 'api/password_reset_confirm.html')
+            else:
+                return render(request, 'api/error_page.html', {'message': "Недействительный токен"})
+        except Exception as e:
+            return render(request, 'api/error_page.html', {'message': "Недействительный токен"})

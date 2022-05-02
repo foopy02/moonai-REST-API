@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 # Create your models here.
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
-
+from unixtimestampfield.fields import UnixTimeStampField
 # Create your models here.
 class MyUserManager(BaseUserManager):
     def create_user(self, email, username, name, surname, gender, date_of_birth,  password=None):
@@ -89,19 +89,21 @@ class CustomUser(AbstractBaseUser):
     date_of_birth=models.DateField(verbose_name="Date of Birth")
     
     balance_last_updated=models.FloatField(verbose_name="Balance last Updated", default=0)
-    balance_last_updated_time=models.DateTimeField(verbose_name="Balance last Updated Time", auto_now_add=True)
+    balance_last_updated_time=UnixTimeStampField(verbose_name="Balance last Updated Time", auto_now_add=True)
     balance_for_withdraw=models.FloatField(verbose_name="Balance available for withdraw", default=0)
 
     ref_balance_last_updated=models.FloatField(verbose_name="Referals balance last update", default=0)
-    ref_balance_last_updated_time=models.DateTimeField(verbose_name="Referal balance last updated time", null=True, blank=True)
+    ref_balance_last_updated_time=UnixTimeStampField(verbose_name="Referal balance last updated time", null=True, blank=True)
     ref_code=models.CharField(verbose_name="Referal code",default=None, max_length=30, null=True, blank=True)
     ref_amount_available=models.IntegerField(default=10)
     ref_amount_filled=models.IntegerField(default=0)
     ref_by=models.CharField(verbose_name="Referred by", max_length=30,default=None, null=True, blank=True)
 
-    apy=models.IntegerField(default=2)
+    apy=models.IntegerField(default=10)
     usertype=models.CharField(choices=UserType.types, default=UserType.STANDARD, max_length=20)
     plan=models.CharField(choices=Apy.plans, default=Apy.BASIC, max_length=10)
+
+    reset_password_token=models.UUIDField(default=None, verbose_name="Reset password token")
 
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True, verbose_name="Last login")

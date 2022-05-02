@@ -17,5 +17,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),
-    path('verify/<str:token>/',views.verify)
+    path('verify/<str:token>/',views.verify),
+
+    path('reset_password/', views.reset_password, name="reset_password"),
+    path('reset/<str:user>/<str:token>/', views.password_reset_confirm, name="password_reset_confirm"),
 ]

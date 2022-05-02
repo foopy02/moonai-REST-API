@@ -136,12 +136,13 @@ def verify(request, token):
     return render(request, 'confirm_template.html')
 
 
-
+@api_view(['POST'])
 @permission_classes([AllowAny])
 def reset_password(request):
     if request.method == "POST":
-        email = request.POST.get("email")
+
         try:
+            email = request.data["email"]
             user = CustomUser.objects.get(email=email)
 
             id = user.id
@@ -151,11 +152,11 @@ def reset_password(request):
             user.save()
             send_reset_password_mail(email=email, token=str(token), username=username, id=id)
             
-            return render(request, 'api/reset_password_done.html', {'email': email})
+            return Response({"message": "На почту успешно отправлено письмо"})
         except Exception as e:
-            return render(request, 'api/reset_password.html', {'error': "Пользователя с такой почтой не существует"})
+            return Response({"message": "Пользователя такой почтой не существует"})
     else:
-        return render(request, 'api/reset_password.html')
+        return render(request, 'api/reset_password_done.html')
 
 
 @permission_classes([AllowAny])

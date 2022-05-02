@@ -21,7 +21,7 @@ def send_email_token(email, token, username):
 def send_reset_password_mail(email, token, username, id):
         subject = 'Сброс пароля'
         html_message = loader.render_to_string(
-            'api/reset_email.html',
+            'api/reset_mail.html',
             {
                 'username': username,
                 'link':f'https://moonaifinanceapiendpointdomain.com/api/reset/{id}/{token}'
@@ -31,6 +31,7 @@ def send_reset_password_mail(email, token, username, id):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [email,]
         send_mail(subject, message, email_from, recipient_list, html_message=html_message)
+        print("sended")
 
 
 def password_check(passwd):

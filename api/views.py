@@ -112,6 +112,19 @@ def register_user(request):
             data = serializer.errors
     return Response(data)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def edit_profile(request):
+    user = get_user(request)
+    serializer = UserEditSerializer(data=request.data)
+    if serializer.is_valid():
+        user.name = serializer.data['name']
+        user.surname = serializer.data['surname']
+        user.save()
+        return Response(serializer.data)
+    else:
+        return Response(serializer.errors)
+
 
 def verify(request, token):
     try:
@@ -122,15 +135,7 @@ def verify(request, token):
         pass
     return render(request, 'confirm_template.html')
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def edit_profile(request):
-    user = get_user(request)
-    serializer = UserEditSerializer(data=request.data)
-    user.name = serializer.data['name']
-    user.surname = serializer.data['name']
-    user.save()
-    return Response(serializer.data)
+
 
 #Reset password
 def reset_password(request):

@@ -137,7 +137,7 @@ def verify(request, token):
 
 
 
-#Reset password
+@permission_classes([AllowAny])
 def reset_password(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -158,6 +158,7 @@ def reset_password(request):
         return render(request, 'api/reset_password.html')
 
 
+@permission_classes([AllowAny])
 def password_reset_confirm(request, user, token):
     if request.method == "POST":
         password1 = request.POST.get("password1")

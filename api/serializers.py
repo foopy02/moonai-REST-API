@@ -14,6 +14,11 @@ class UserSerializer(ModelSerializer):
         model = CustomUser
         fields = ['email', 'username', 'name', 'surname', 'gender', 'date_of_birth', 'number']
 
+class UserEditSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['name', 'surname']
+
 class UserBalanceSerializer(ModelSerializer):
     class Meta:
         model = CustomUser

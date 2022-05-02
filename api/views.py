@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .utils import send_email_token,send_reset_password_mail, password_check
 from .models import *
-from .serializers import UserRefUsernameSerializer,UserAllSerializer,RegistrationSerializer, UserBalanceSerializer, UserPlansSerializer, UserRefSerializer, UserSerializer, WalletSerializer, WithdrawSerializer, DepositSerializer
+from .serializers import *
 from .helpers import *
 import json
 from rest_framework import serializers
@@ -122,6 +122,15 @@ def verify(request, token):
         pass
     return render(request, 'confirm_template.html')
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def edit_profile(request):
+    user = get_user(request)
+    serializer = UserEditSerializer(data=request.data)
+    user.name = serializer.data['name']
+    user.surname = serializer.data['name']
+    user.save()
+    return Response(serializer.data)
 
 #Reset password
 def reset_password(request):

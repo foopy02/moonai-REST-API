@@ -152,9 +152,9 @@ def reset_password(request):
             user.save()
             send_reset_password_mail(email=email, token=str(token), username=username, id=id)
             
-            return Response({"message": "На почту успешно отправлено письмо"})
+            return Response({"status": "200"})
         except Exception as e:
-            return Response({"message": "Пользователя такой почтой не существует"})
+            return Response({"status": "400"})
     else:
         return render(request, 'api/reset_password_done.html')
 
@@ -163,7 +163,7 @@ def reset_password(request):
 def password_reset_confirm(request, user, token):
     if request.method == "POST":
         password1 = request.POST.get("password1")
-        password2 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
 
         if password1 == password2 and password_check(password1):
             user = CustomUser.objects.get(id=user)
@@ -182,4 +182,10 @@ def password_reset_confirm(request, user, token):
             else:
                 return render(request, 'api/error_page.html', {'message': "Недействительный токен"})
         except Exception as e:
+            print(e)
             return render(request, 'api/error_page.html', {'message': "Недействительный токен"})
+
+def success_payment(request, addressFrom):
+    #TODO implement check of address every n amount of time 
+
+    return render(request, 'api/success_payment.html')

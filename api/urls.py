@@ -13,6 +13,7 @@ urlpatterns = [
     path('user/deposits/', views.get_deposits),
     path('user/wallet/', views.get_wallet_of_user),
     path('user/referal/list/', views.get_referals),
+    path('success-payment/', views.success_payment),
     path('api-auth/', include('rest_framework.urls')),
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),

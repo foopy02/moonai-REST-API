@@ -31,7 +31,6 @@ def send_reset_password_mail(email, token, username, id):
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [email,]
         send_mail(subject, message, email_from, recipient_list, html_message=html_message)
-        print("sended")
 
 
 def password_check(passwd):

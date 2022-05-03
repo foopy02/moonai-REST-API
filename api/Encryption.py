@@ -1,5 +1,6 @@
 from cryptography.fernet import Fernet
 
+
 "@f=pu=iv6@)$@f$qt99eyg!fevmxaqczgnfure6oq@mg5ej$k8lagman"
 __key ="@f=pu=iv6@)$@f$qt99eyg!fevmxaqczgnfure6oq@mg5ej$k8lagman".encode('base64')
 

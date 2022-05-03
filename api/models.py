@@ -89,11 +89,11 @@ class CustomUser(AbstractBaseUser):
     date_of_birth=models.DateField(verbose_name="Date of Birth")
     
     balance_last_updated=models.FloatField(verbose_name="Balance last Updated", default=0)
-    balance_last_updated_time=UnixTimeStampField(verbose_name="Balance last Updated Time", auto_now_add=True)
+    balance_last_updated_time=UnixTimeStampField(use_numeric=True, verbose_name="Balance last Updated Time", auto_now_add=True)
     balance_for_withdraw=models.FloatField(verbose_name="Balance available for withdraw", default=0)
 
     ref_balance_last_updated=models.FloatField(verbose_name="Referals balance last update", default=0)
-    ref_balance_last_updated_time=UnixTimeStampField(verbose_name="Referal balance last updated time", null=True, blank=True)
+    ref_balance_last_updated_time=UnixTimeStampField(use_numeric=True,verbose_name="Referal balance last updated time", null=True, blank=True)
     ref_code=models.CharField(verbose_name="Referal code",default=None, max_length=30, null=True, blank=True)
     ref_amount_available=models.IntegerField(default=10)
     ref_amount_filled=models.IntegerField(default=0)

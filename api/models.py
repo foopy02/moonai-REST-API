@@ -50,13 +50,15 @@ class MyUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser):
 
     class UserType():
+        TESTER = "TESTER"
         STANDARD = "STANDARD"
         MICROINF = "MICROINF"
         MACROINF = "MACROINF"
         types = (
             (STANDARD, "STANDARD"),
             (MICROINF, "MICROINF"),
-            (MACROINF, "MACROINF")
+            (MACROINF, "MACROINF"),
+            (TESTER, "TESTER")
         )
 
     class Gender():
@@ -100,7 +102,7 @@ class CustomUser(AbstractBaseUser):
     ref_by=models.CharField(verbose_name="Referred by", max_length=30,default=None, null=True, blank=True)
 
     apy=models.IntegerField(default=10)
-    usertype=models.CharField(choices=UserType.types, default=UserType.STANDARD, max_length=20)
+    usertype=models.CharField(choices=UserType.types, default=UserType.TESTER, max_length=20)
     plan=models.CharField(choices=Apy.plans, default=Apy.BASIC, max_length=10)
 
     reset_password_token=models.UUIDField(default=None, verbose_name="Reset password token")

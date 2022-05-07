@@ -101,7 +101,7 @@ class RegistrationSerializer(ModelSerializer):
         user.ref_code = user.username
         send_email_token(user.email, user.id, user.username)
         user.is_active = False
-        user.balance_for_withdraw=1
+        user.balance_for_withdraw=5
         user.save()
         self._generate_wallet_for_user(user)
         return user

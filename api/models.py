@@ -81,7 +81,7 @@ class CustomUser(AbstractBaseUser):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, verbose_name="ID")
 
-    email=models.EmailField(verbose_name="Email", max_length=64)
+    email=models.EmailField(verbose_name="Email", unique=True, max_length=64)
     username=models.CharField(verbose_name="Username", max_length=30, unique=True)
     name=models.CharField(max_length=26, verbose_name="Name")
     surname=models.CharField(max_length=26, verbose_name="Surname")
@@ -95,7 +95,7 @@ class CustomUser(AbstractBaseUser):
     balance_for_withdraw=models.FloatField(verbose_name="Balance available for withdraw", default=0)
 
     ref_balance_last_updated=models.FloatField(verbose_name="Referals balance last update", default=0)
-    ref_balance_last_updated_time=UnixTimeStampField(use_numeric=True,verbose_name="Referal balance last updated time", null=True, blank=True)
+    ref_balance_last_updated_time=UnixTimeStampField(use_numeric=True,verbose_name="Referal balance last updated time", null=True, blank=True, auto_now_add=True)
     ref_code=models.CharField(verbose_name="Referal code",default=None, max_length=30, null=True, blank=True)
     ref_amount_available=models.IntegerField(default=10)
     ref_amount_filled=models.IntegerField(default=0)

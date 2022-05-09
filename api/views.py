@@ -9,11 +9,10 @@ from .utils import send_email_token,send_reset_password_mail, password_check
 from .models import *
 from .serializers import *
 from .helpers import *
-import json
 from rest_framework import serializers
-
 from django.contrib.auth import get_user_model
 
+import requests, time, json
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_full_infO(request):

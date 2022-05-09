@@ -1,3 +1,4 @@
+import uuid
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import Withdraw, Deposit, CustomUser, Wallet
@@ -72,7 +73,6 @@ class RegistrationSerializer(ModelSerializer):
         wallet.save()
 
     def save(self):
-        
         user = CustomUser(
             email=self.validated_data['email'],
             username=self.validated_data['username'],
@@ -102,8 +102,8 @@ class RegistrationSerializer(ModelSerializer):
         send_email_token(user.email, user.id, user.username)
         user.is_active = False
         user.balance_for_withdraw=5
-        user.save()
         self._generate_wallet_for_user(user)
+        user.save()
         return user
 
 class WalletSerializer(ModelSerializer):

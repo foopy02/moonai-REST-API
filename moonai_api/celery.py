@@ -20,9 +20,9 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'every-5-seconds':{
-        'task': 'api.tasks.test',
-        'schedule': 5,
+    'check_user_wallets':{
+        'task': 'api.tasks.check_wallets',
+        'schedule': 30,
     }
 }
 @app.task(bind=True)
